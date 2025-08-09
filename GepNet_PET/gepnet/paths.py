@@ -14,9 +14,6 @@
 
 import os
 from batchgenerators.utilities.file_and_folder_operations import maybe_mkdir_p, join
-base = r'/media/hpc/264CEE814CEE4B5F/ZXY/GEPNet/GepNet_PET/DATASET/gepnet_raw'
-preprocessing_output_dir = r'/media/hpc/264CEE814CEE4B5F/ZXY/GEPNet/GepNet_PET/DATASET/gepnet_preprocessed'
-network_training_output_dir_base = r'/media/hpc/264CEE814CEE4B5F/ZXY/GEPNet/GepNet_PET/DATASET/gepnet_trained_models'
 
 # do not modify these unless you know what you are doing
 my_output_identifier = "gepnet"
@@ -31,21 +28,21 @@ default_trainer = "gepnet_trainer_synapse"
 PLEASE READ paths.md FOR INFORMATION TO HOW TO SET THIS UP
 """
 
-# base = (
-#     os.environ["gepnet_raw_data_base"]
-#     if "gepnet_raw_data_base" in os.environ.keys()
-#     else None
-# )
-# preprocessing_output_dir = (
-#     os.environ["gepnet_preprocessed"]
-#     if "gepnet_preprocessed" in os.environ.keys()
-#     else None
-# )
-# network_training_output_dir_base = (
-#     os.path.join(os.environ["RESULTS_FOLDER"])
-#     if "RESULTS_FOLDER" in os.environ.keys()
-#     else None
-# )
+base = (
+    os.environ["gepnet_raw_data_base"]
+    if "gepnet_raw_data_base" in os.environ.keys()
+    else None
+)
+preprocessing_output_dir = (
+    os.environ["gepnet_preprocessed"]
+    if "gepnet_preprocessed" in os.environ.keys()
+    else None
+)
+network_training_output_dir_base = (
+    os.path.join(os.environ["RESULTS_FOLDER"])
+    if "RESULTS_FOLDER" in os.environ.keys()
+    else None
+)
 
 if base is not None:
     nnFormer_raw_data = join(base, "gepnet_raw_data")
