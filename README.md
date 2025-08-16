@@ -13,9 +13,17 @@ The code is tested with Python 3.9, PyTorch 2.0.1 and CUDA 11.7. After cloning t
   conda activate gepnet
   ```
   2. Install PyTorch and torchvision
+  ```
+  conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8  -c nvidia
+  ```
   3. Install other dependencies
   ```
   pip install -r requirements.txt
+  ```
+  4. Install DCN (Deformable Convolutional Networks) repository
+  ```
+  cd ../dcn
+  bash make.sh
   ```
 
 ## Dataset
