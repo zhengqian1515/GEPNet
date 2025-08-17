@@ -69,8 +69,12 @@ We follow the same dataset preprocessing as in [UNETR++](https://github.com/Amsh
     ├── gepnet_trained_models/
     ├── gepnet_preprocessed/
   ```
+  After that, you can preprocess the above data using following commands:
+  ```
+  nnFormer_plan_and_preprocess -t XXX
+  ```
 
-  Please refer to [Setting up the datasets](https://github.com/Amshaker/unetr_plus_plus) on UNETR++ repository for more details. 
+  Please refer to [Setting up the datasets](https://github.com/282857341/nnFormer) on nnFormer repository for more details. 
 
 ## Training
 The following scripts can be used for training our GEPNet model on the datasets:
@@ -79,15 +83,34 @@ bash training_scripts/run_training_pet.sh
 ```
 
 ## Evaluation
-For evaluation:
+<table>
+  <tr>
+    <th>Dataset</th>
+    <th colspan="5" style="text-align: center">Pre-Trained Weights</th>
+  </tr>
+  <tr>
+    <td>ECPC-IDS</td>
+    <td><a href="#">fold 0</a></td>
+    <td><a href="#">fold 1</a></td>
+    <td><a href="#">fold 2</a></td>
+    <td><a href="#">fold 3</a></td>
+    <td><a href="#">fold 4</a></td>
+  </tr>
+</table>
+
+1- Download ECPC-IDS weights and paste model_final_checkpoint.model in the following path, using fold 0 as an example:
+
+```
+GEPNet-main/GepNet_PET/DATASET/gepnet_trained_models/gepnet/3d_fullres/Task503_ecpc/gepnet_trainer_PET__nnFormerPlansv2.1_trgSp_1x1x1/fold_0
+```
+
+2- Then, run
 ```
 bash evaluation_scripts/run_evaluation_pet.sh
 ```
 
-For inference:
-```
-nnFormer/nnformer/inference/predict_simple.py
-```
+3- Finally, take the average of the five cross-validation results.
+
 ## Acknowledgement
 
 ## Citation
