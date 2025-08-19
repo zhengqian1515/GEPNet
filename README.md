@@ -92,11 +92,11 @@ bash training_scripts/run_training_pet.sh
   </tr>
   <tr>
     <td>ECPC-IDS</td>
-    <td><a href="#">fold 0</a></td>
-    <td><a href="#">fold 1</a></td>
-    <td><a href="#">fold 2</a></td>
-    <td><a href="#">fold 3</a></td>
-    <td><a href="#">fold 4</a></td>
+    <td><a href="https://github.com/zhengqian1515/weight_repo/raw/main/fold_0/model_final_checkpoint.model?download=">fold 0</a></td>
+    <td><a href="https://github.com/zhengqian1515/weight_repo/raw/main/fold_1/model_final_checkpoint.model?download=">fold 1</a></td>
+    <td><a href="https://github.com/zhengqian1515/weight_repo/raw/main/fold_2/model_final_checkpoint.model?download=">fold 2</a></td>
+    <td><a href="https://github.com/zhengqian1515/weight_repo/raw/main/fold_3/model_final_checkpoint.model?download=">fold 3</a></td>
+    <td><a href=https://github.com/zhengqian1515/weight_repo/raw/main/fold_4/model_final_checkpoint.model?download=#">fold 4</a></td>
   </tr>
 </table>
 
