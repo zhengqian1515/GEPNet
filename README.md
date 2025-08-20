@@ -5,7 +5,8 @@
 Click [here](GEPNet_User_Guide.ipynb) to view the GEPNet user guide.
 
 ## Updates
-- First release – Jun 25, 2024
+- update code and readme - August 20, 2025
+- First release – Jun 25, 2025
 
 ## Installation
 The code is tested with Python 3.9, PyTorch 2.0.1 and CUDA 11.7. After cloning the repository, follow the below steps for installation,
@@ -114,6 +115,7 @@ bash evaluation_scripts/run_evaluation_pet.sh
 3- Finally, take the average of the five cross-validation results.
 
 ## Acknowledgement
+This repository is built based on [nnFormer](https://github.com/282857341/nnFormer), [nnU-Net](https://github.com/MIC-DKFZ/nnUNet), [UNETR++](https://github.com/Amshaker/unetr_plus_plus), [LHUnet](https://github.com/xmindflow/LHUNet). We thank the authors for their code repositories.
 
 ## Citation
 
