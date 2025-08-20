@@ -73,11 +73,11 @@ class ExperimentPlanner3D_v21(ExperimentPlanner):
         other_sizes = [target_size[i] for i in other_axes]
 
         has_aniso_spacing = target[worst_spacing_axis] > (
-            self.anisotropy_threshold * max(other_spacings)
+                self.anisotropy_threshold * max(other_spacings)
         )
         has_aniso_voxels = target_size[
-            worst_spacing_axis
-        ] * self.anisotropy_threshold < min(other_sizes)
+                               worst_spacing_axis
+                           ] * self.anisotropy_threshold < min(other_sizes)
         # we don't use the last one for now
         # median_size_in_mm = target[target_size_mm] * RESAMPLING_SEPARATE_Z_ANISOTROPY_THRESHOLD < max(target_size_mm)
 
@@ -87,19 +87,19 @@ class ExperimentPlanner3D_v21(ExperimentPlanner):
             # don't let the spacing of that axis get higher than the other axes
             if target_spacing_of_that_axis < max(other_spacings):
                 target_spacing_of_that_axis = (
-                    max(max(other_spacings), target_spacing_of_that_axis) + 1e-5
+                        max(max(other_spacings), target_spacing_of_that_axis) + 1e-5
                 )
             target[worst_spacing_axis] = target_spacing_of_that_axis
         return target
 
     def get_properties_for_stage(
-        self,
-        current_spacing,
-        original_spacing,
-        original_shape,
-        num_cases,
-        num_modalities,
-        num_classes,
+            self,
+            current_spacing,
+            original_spacing,
+            original_shape,
+            num_cases,
+            num_modalities,
+            num_classes,
     ):
         """
         ExperimentPlanner configures pooling so that we pool late. Meaning that if the number of pooling per axis is
@@ -149,9 +149,9 @@ class ExperimentPlanner3D_v21(ExperimentPlanner):
         # now. That frees up some space. The decision to go with 32 is solely due to the speedup we get (non-multiples
         # of 8 are not supported in nvidia amp)
         ref = (
-            Generic_UNet.use_this_for_batch_size_computation_3D
-            * self.unet_base_num_features
-            / Generic_UNet.BASE_NUM_FEATURES_3D
+                Generic_UNet.use_this_for_batch_size_computation_3D
+                * self.unet_base_num_features
+                / Generic_UNet.BASE_NUM_FEATURES_3D
         )
         here = Generic_UNet.compute_approx_vram_consumption(
             new_shp,
@@ -222,8 +222,8 @@ class ExperimentPlanner3D_v21(ExperimentPlanner):
         batch_size = max(1, min(batch_size, max_batch_size))
 
         do_dummy_2D_data_aug = (
-            max(input_patch_size) / input_patch_size[0]
-        ) > self.anisotropy_threshold
+                                       max(input_patch_size) / input_patch_size[0]
+                               ) > self.anisotropy_threshold
 
         plan = {
             "batch_size": batch_size,
@@ -237,3 +237,53 @@ class ExperimentPlanner3D_v21(ExperimentPlanner):
             "conv_kernel_sizes": conv_kernel_sizes,
         }
         return plan
+
+
+class ExperimentPlanner3D_v21_customTargetSpacing_2x2x2(ExperimentPlanner3D_v21):
+    def __init__(self, folder_with_cropped_data, preprocessed_output_folder):
+        super(ExperimentPlanner3D_v21, self).__init__(
+            folder_with_cropped_data, preprocessed_output_folder
+        )
+        # we change the data identifier and plans_fname. This will make this experiment planner save the preprocessed
+        # data in a different folder so that they can co-exist with the default (ExperimentPlanner3D_v21). We also
+        # create a custom plans file that will be linked to this data
+        self.data_identifier = "nnFormerData_plans_v2.1_trgSp_2x2x2"
+        self.plans_fname = join(
+            self.preprocessed_output_folder,
+            "nnFormerPlansv2.1_trgSp_2x2x2_plans_3D.pkl",
+        )
+
+    def get_target_spacing(self):
+        # simply return the desired spacing as np.array
+        return np.array([2.0, 2.0, 2.0])  # make sure this is float!!!! Not int!
+
+class ExperimentPlanner3D_v21_customTargetSpacing_1x1x1(ExperimentPlanner3D_v21):
+    def __init__(self, folder_with_cropped_data, preprocessed_output_folder):
+        super(ExperimentPlanner3D_v21, self).__init__(folder_with_cropped_data, preprocessed_output_folder)
+        # we change the data identifier and plans_fname. This will make this experiment planner save the preprocessed
+        # data in a different folder so that they can co-exist with the default (ExperimentPlanner3D_v21). We also
+        # create a custom plans file that will be linked to this data
+        self.data_identifier = "nnFormerData_plans_v2.1_trgSp_1x1x1"
+        self.plans_fname = join(self.preprocessed_output_folder,
+                                "nnFormerPlansv2.1_trgSp_1x1x1_plans_3D.pkl")
+
+    def get_target_spacing(self):
+        # simply return the desired spacing as np.array
+        return np.array([1., 1., 1.])  # make sure this is float!!!! Not int!
+
+    def get_properties_for_stage(
+            self, current_spacing, original_spacing, original_shape, num_cases, num_modalities, num_classes
+    ):
+        """
+        ExperimentPlanner configures pooling so that we pool late. Meaning that if the number of pooling per axis is
+        (2, 3, 3), then the first pooling operation will always pool axes 1 and 2 and not 0, irrespective of spacing.
+        This can cause a larger memory footprint, so it can be beneficial to revise this.
+
+        Here we are pooling based on the spacing of the data.
+
+        """
+        plans = super(ExperimentPlanner3D_v21_customTargetSpacing_1x1x1, self).get_properties_for_stage(
+            current_spacing, original_spacing, original_shape, num_cases, num_modalities, num_classes
+        )
+        plans["patch_size"] = [128, 128, 128]
+        return plans
