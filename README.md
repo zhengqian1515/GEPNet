@@ -6,7 +6,7 @@ Click [here](GEPNet_User_Guide.ipynb) to view the GEPNet user guide.
 
 ## Updates
 - update code and readme - August 20, 2025
-- First release – Jun 25, 2025
+- first release – Jun 25, 2025
 
 ## Installation
 The code is tested with Python 3.9, PyTorch 2.0.1 and CUDA 11.7. After cloning the repository, follow the below steps for installation,
