@@ -30,7 +30,7 @@ The code is tested with Python 3.9, PyTorch 2.0.1 and CUDA 11.7. After cloning t
   ```
 
 ## Dataset
-We follow the same dataset preprocessing as in [UNETR++](https://github.com/Amshaker/unetr_plus_plus). We conducted extensive experiments on three benchmarks: MCLID, ECPC-ID, and Hecktor 2022.
+We follow the same dataset preprocessing as in [nnFormer](https://github.com/282857341/nnFormer) and [MedNeXt](https://github.com/MIC-DKFZ/MedNeXt). We conducted extensive experiments on three benchmarks: MCLID, ECPC-ID, and Hecktor 2022.
 
 1. Dataset download
    
@@ -44,7 +44,7 @@ We follow the same dataset preprocessing as in [UNETR++](https://github.com/Amsh
   Dataset III [Hecktor 2022](https://hecktor.grand-challenge.org/) 
 
 2. Setting up the datasets
-  After you have downloaded the datasets, you can follow the settings in [UNETR++](https://github.com/Amshaker/unetr_plus_plus) for path configurations and preprocessing procedures. Finally, your folders should be organized as follows:
+  After you have downloaded the datasets, you can follow the settings in [nnFormer](https://github.com/282857341/nnFormer) for path configurations and preprocessing procedures. Finally, your folders should be organized as follows:
   ```
   ./gepnet/
   ./DATASET/
@@ -115,7 +115,7 @@ bash evaluation_scripts/run_evaluation_pet.sh
 3- Finally, take the average of the five cross-validation results.
 
 ## Acknowledgement
-This repository is built based on [nnFormer](https://github.com/282857341/nnFormer), [nnU-Net](https://github.com/MIC-DKFZ/nnUNet), [UNETR++](https://github.com/Amshaker/unetr_plus_plus), [LHUnet](https://github.com/xmindflow/LHUNet). We thank the authors for their code repositories.
+This repository is built based on [nnFormer](https://github.com/282857341/nnFormer), [nnU-Net](https://github.com/MIC-DKFZ/nnUNet), [MedNeXt](https://github.com/MIC-DKFZ/MedNeXt) [UNETR++](https://github.com/Amshaker/unetr_plus_plus), [LHUnet](https://github.com/xmindflow/LHUNet). We thank the authors for their code repositories.
 
 ## Citation
 
