@@ -457,3 +457,18 @@ class DC_and_topk_loss(nn.Module):
         else:
             raise NotImplementedError("nah son")  # reserved for other stuff (later?)
         return result
+
+
+
+if __name__ == '__main__':
+    # 创建模拟输入数据
+    pred = torch.rand((2, 2, 128, 128, 128))
+    target = torch.randint(0, 2, (2, 1, 128, 128, 128))
+    loss = DC_and_CE_loss(
+        soft_dice_kwargs={'batch_dice': False, 'smooth': 1e-5, 'do_bg': False},
+        ce_kwargs={},
+        weight_ce=1,
+        weight_dice=1
+    )
+    lossout = loss(pred, target)
+    print(lossout)
