@@ -72,8 +72,8 @@ class gepnet_trainer_PET(Trainer_PET):
             deterministic,
             fp16,
         )
-        self.max_num_epochs = 36
-        self.initial_lr = 0.0003 ######################## Yousef here
+        self.max_num_epochs = 1000
+        self.initial_lr = 0.001 ######################## Yousef here
         self.deep_supervision_scales = None
         self.ds_loss_weights = None
         self.pin_memory = True
