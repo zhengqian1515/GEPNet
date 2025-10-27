@@ -9,4 +9,4 @@ export gepnet_preprocessed="$DATASET_PATH"/gepnet_preprocessed
 export gepnet_raw_data_base="$DATASET_PATH"/gepnet_raw
 
 
-python ../gepnet/run/run_training.py 3d_fullres gepnet_trainer_PET 503 4 -val -p nnFormerPlansv2.1_trgSp_1x1x1
+CUDA_VISIBLE_DEVICES=9 python ../gepnet/run/run_training.py 3d_fullres gepnet_trainer_PET 503 0 -val -p nnFormerPlansv2.1_trgSp_1x1x1
