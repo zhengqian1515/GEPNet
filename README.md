@@ -46,31 +46,31 @@ We follow the same dataset preprocessing as in [nnFormer](https://github.com/282
 2. Setting up the datasets
   After you have downloaded the datasets, you can follow the settings in [nnFormer](https://github.com/282857341/nnFormer) for path configurations and preprocessing procedures. Finally, your folders should be organized as follows:
   ```
-  ./gepnet/
+  ./GepNet/
   ./DATASET/
     ├── gepnet_raw/
         ├── gepnet_raw_data/
-            ├── Task501_mcl/
+            ├── Task503_ecpc/
                 ├── imagesTr/
+                    ├── ecpc_001_0000.nii.gz
+                    ├── ecpc_002_0000.nii.gz
+                    ├── ecpc_003_0000.nii.gz
+                    ├── ecpc_004_0000.nii.gz
+                    ├── ecpc_005_0000.nii.gz
+                    ├── ...
                 ├── imagesTs/
                 ├── labelsTr/
-                ├── labelsTs/
-                ├── dataset.json
-            ├── Task502_ecpc/
-                ├── imagesTr/
-                ├── imagesTs/
-                ├── labelsTr/
-                ├── labelsTs/
-                ├── dataset.json
-            ├── Task503_hecktor/
-                ├── imagesTr/
-                ├── imagesTs/
-                ├── labelsTr/
+                    ├── ecpc_001.nii.gz
+                    ├── ecpc_002.nii.gz
+                    ├── ecpc_003.nii.gz
+                    ├── ecpc_004.nii.gz
+                    ├── ecpc_005.nii.gz
+                    ├── ...
                 ├── labelsTs/
                 ├── dataset.json
         ├── gepnet_cropped_data/
-    ├── gepnet_trained_models/
     ├── gepnet_preprocessed/
+    ├── gepnet_trained_models/
   ```
   After that, you can preprocess the above data using following commands:
   ```
@@ -101,10 +101,10 @@ bash training_scripts/run_training_pet.sh
   </tr>
 </table>
 
-1- Download ECPC-IDS weights and paste model_final_checkpoint.model in the following path, using fold 0 as an example:
+1- Download ECPC-IDS weights and paste model_final_checkpoint.model in the following path, using fold 1 as an example:
 
 ```
-GEPNet-main/GepNet_PET/DATASET/gepnet_trained_models/gepnet/3d_fullres/Task503_ecpc/gepnet_trainer_PET__nnFormerPlansv2.1_trgSp_1x1x1/fold_0
+GEPNet-main/GepNet_PET/DATASET/gepnet_trained_models/gepnet/3d_fullres/Task503_ecpc/gepnet_trainer_PET__nnFormerPlansv2.1_trgSp_1x1x1/fold_1
 ```
 
 2- Then, run
@@ -112,7 +112,6 @@ GEPNet-main/GepNet_PET/DATASET/gepnet_trained_models/gepnet/3d_fullres/Task503_e
 bash evaluation_scripts/run_evaluation_pet.sh
 ```
 
-3- Finally, take the average of the five cross-validation results.
 
 ## Acknowledgement
 This repository is built based on [nnFormer](https://github.com/282857341/nnFormer), [nnU-Net](https://github.com/MIC-DKFZ/nnUNet), [MedNeXt](https://github.com/MIC-DKFZ/MedNeXt) [UNETR++](https://github.com/Amshaker/unetr_plus_plus), [LHUnet](https://github.com/xmindflow/LHUNet). We thank the authors for their code repositories.
