@@ -44,7 +44,12 @@ We follow the same dataset preprocessing as in [nnFormer](https://github.com/282
   Dataset III [Hecktor 2022](https://hecktor.grand-challenge.org/) 
 
 2. Setting up the datasets
-  After you have downloaded the datasets, you can follow the settings in [nnFormer](https://github.com/282857341/nnFormer) for path configurations and preprocessing procedures. Finally, your folders should be organized as follows:
+   
+  First, we need to name and store our data according to the data format required by nnUNet. For example, ecpc_001_0000.nii.gz. After manually creating these datasets, we need to generate a dataset.json file. This file specifies the dataset structure for generating the model structure file. 
+  
+  For the data format and dataset.json file, refer to the examples provided on [GitHub](https://github.com/MIC-DKFZ/nnUNet/blob/nnunetv1/documentation/dataset_conversion.md) and convert them to your own. You can also refer to [nnFormer](https://github.com/282857341/nnFormer) for path configuration and preprocessing procedues.
+
+  Finally, your folders should be organized as follows:
   ```
   ./GepNet/
   ./DATASET/
@@ -86,6 +91,11 @@ bash training_scripts/run_training_pet.sh
 ```
 
 ## Evaluation
+
+To reproduce the results of GepNet:
+
+Note: Please generate the preprocessing plan for the dataset according to the configuration in Table 1 of the paper.
+
 <table>
   <tr>
     <th>Dataset</th>
