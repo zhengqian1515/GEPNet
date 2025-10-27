@@ -12,7 +12,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-
+import os
+import sys
+sys.path.append("/data/MedSegmentation/ZXY/GEPNet-main/GepNet_PET")
+# current_working_directory = os.getcwd()
+# print(current_working_directory)
 import collections
 import inspect
 import json
@@ -29,7 +33,7 @@ from batchgenerators.utilities.file_and_folder_operations import (
     join,
 )
 from collections import OrderedDict
-
+from os.path import join, dirname
 
 class Evaluator:
     """Object that holds test and reference segmentations with label information
@@ -52,6 +56,7 @@ class Evaluator:
         "False Discovery Rate",
         "Total Positives Test",
         "Total Positives Reference",
+        "Hausdorff Distance 95",
     ]
 
     default_advanced_metrics = [
@@ -62,13 +67,13 @@ class Evaluator:
     ]
 
     def __init__(
-        self,
-        test=None,
-        reference=None,
-        labels=None,
-        metrics=None,
-        advanced_metrics=None,
-        nan_for_nonexisting=True,
+            self,
+            test=None,
+            reference=None,
+            labels=None,
+            metrics=None,
+            advanced_metrics=None,
+            nan_for_nonexisting=True,
     ):
         self.test = None
         self.reference = None
@@ -333,17 +338,17 @@ def run_evaluation(args):
 
 
 def aggregate_scores(
-    test_ref_pairs,
-    evaluator=NiftiEvaluator,
-    labels=None,
-    nanmean=True,
-    json_output_file=None,
-    json_name="",
-    json_description="",
-    json_author="Fabian",
-    json_task="",
-    num_threads=2,
-    **metric_kwargs
+        test_ref_pairs,
+        evaluator=NiftiEvaluator,
+        labels=None,
+        nanmean=True,
+        json_output_file=None,
+        json_name="",
+        json_description="",
+        json_author="Fabian",
+        json_task="",
+        num_threads=2,
+        **metric_kwargs
 ):
     """
     test = predicted image
@@ -425,15 +430,15 @@ def aggregate_scores(
 
 
 def aggregate_scores_for_experiment(
-    score_file,
-    labels=None,
-    metrics=Evaluator.default_metrics,
-    nanmean=True,
-    json_output_file=None,
-    json_name="",
-    json_description="",
-    json_author="Fabian",
-    json_task="",
+        score_file,
+        labels=None,
+        metrics=Evaluator.default_metrics,
+        nanmean=True,
+        json_output_file=None,
+        json_name="",
+        json_description="",
+        json_author="Fabian",
+        json_task="",
 ):
     scores = np.load(score_file)
     scores_mean = scores.mean(0)
@@ -460,8 +465,8 @@ def aggregate_scores_for_experiment(
     json_dict["author"] = json_author
     json_dict["results"] = {"all": results, "mean": results_mean}
     json_dict["id"] = hashlib.md5(json.dumps(json_dict).encode("utf-8")).hexdigest()[
-        :12
-    ]
+                      :12
+                      ]
     if json_output_file is not None:
         json_output_file = open(json_output_file, "w")
         json.dump(json_dict, json_output_file, indent=4, separators=(",", ": "))
@@ -471,7 +476,7 @@ def aggregate_scores_for_experiment(
 
 
 def evaluate_folder(
-    folder_with_gts: str, folder_with_predictions: str, labels: tuple, **metric_kwargs
+        folder_with_gts: str, folder_with_predictions: str, labels: tuple, **metric_kwargs
 ):
     """
     writes a summary.json to folder_with_predictions
@@ -491,7 +496,8 @@ def evaluate_folder(
     ]
     res = aggregate_scores(
         test_ref_pairs,
-        json_output_file=join(folder_with_predictions, "summary.json"),
+        # json_output_file=join(folder_with_predictions, "summary.json"),
+        json_output_file=join(dirname(folder_with_predictions), "summary.json"),
         num_threads=8,
         labels=labels,
         **metric_kwargs
@@ -518,7 +524,7 @@ def nnformer_evaluate_folder():
         required=True,
         type=str,
         help="Folder containing the predicted segmentations in nifti "
-        "format. File names must match between the folders!",
+             "format. File names must match between the folders!",
     )
     parser.add_argument(
         "-l",
@@ -526,14 +532,19 @@ def nnformer_evaluate_folder():
         type=int,
         required=True,
         help="List of label IDs (integer values) that should "
-        "be evaluated. Best practice is to use all int "
-        "values present in the dataset, so for example "
-        "for LiTS the labels are 0: background, 1: "
-        "liver, 2: tumor. So this argument "
-        "should be -l 1 2. You can if you want also "
-        "evaluate the background label (0) but in "
-        "this case that would not gie any useful "
-        "information.",
+             "be evaluated. Best practice is to use all int "
+             "values present in the dataset, so for example "
+             "for LiTS the labels are 0: background, 1: "
+             "liver, 2: tumor. So this argument "
+             "should be -l 1 2. You can if you want also "
+             "evaluate the background label (0) but in "
+             "this case that would not gie any useful "
+             "information.",
     )
     args = parser.parse_args()
     return evaluate_folder(args.ref, args.pred, args.l)
+
+
+if __name__ == "__main__":
+    result = nnformer_evaluate_folder()
+    print("Evaluation completed. Results saved as a JSON file.")
